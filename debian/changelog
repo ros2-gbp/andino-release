@@ -1,0 +1,10 @@
+ros-humble-andino-gz-classic (0.1.0-1jammy) jammy; urgency=high
+
+  * gz_classic_sim: Free caster wheel joint. (#166 <https://github.com/Ekumen-OS/andino/issues/166>)
+  * Remove cmake find_package to gazebo. (#163 <https://github.com/Ekumen-OS/andino/issues/163>)
+  * Renames andino_gazebo package to andino_gz_classic. (#153 <https://github.com/Ekumen-OS/andino/issues/153>)
+  * Contributors: Franco Cipollone, Olmer Garcia-Bedoya
+
+ -- Olmer Garcia <olmerg@ekumenlabs.com>  Mon, 09 Oct 2023 03:00:00 -0000
+
+
