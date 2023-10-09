@@ -1,0 +1,8 @@
+ros-humble-andino-control (0.1.0-1bullseye) bullseye; urgency=high
+
+  * Sets up ros control for the andino robot
+  * Contributors: Franco Cipollone
+
+ -- Franco Cipollone <franco.c@ekumenlabs.com>  Mon, 09 Oct 2023 03:00:00 -0000
+
+
