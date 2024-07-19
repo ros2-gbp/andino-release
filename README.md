@@ -28,16 +28,25 @@ _Note: For videos go to [Media](#selfie-media) section._
 - :hammer_and_pick: [`andino_firmware`](./andino_firmware): Contains the code be run in the microcontroller for interfacing low level hardware with the SBC.
 - :gear: [`andino_base`](./andino_base): [ROS Control hardware interface](https://control.ros.org/master/doc/ros2_control/hardware_interface/doc/writing_new_hardware_interface.html) is implemented.
 - :control_knobs: [`andino_control`](./andino_control/): It launches the [`controller_manager`](https://control.ros.org/humble/doc/ros2_control/controller_manager/doc/userdoc.html) along with the [ros2 controllers](https://control.ros.org/master/doc/ros2_controllers/doc/controllers_index.html): [diff_drive_controller](https://control.ros.org/master/doc/ros2_controllers/diff_drive_controller/doc/userdoc.html) and the [joint_state_broadcaster](https://control.ros.org/master/doc/ros2_controllers/joint_state_broadcaster/doc/userdoc.html).
-- :computer: [`andino_gz_classic`](./andino_gz_classic/): Gazebo simulation of the `andino` robot.
+- :computer: [`andino_gz_classic`](./andino_gz_classic/): [Gazebo Classic](https://classic.gazebosim.org/) simulation of the `andino` robot.
 - :world_map: [`andino_slam`](./andino_slam/): Provides support for SLAM with your `andino` robot.
 - :compass: [`andino_navigation`](./andino_navigation/): Navigation stack based on `nav2`.
+- :exclamation: [`andino_apps`](./andino_apps/): Integrated applications with the `andino` robot.
 
 ## :paperclips: Related projects
 
 Other projects built upon Andino! :rocket:
 
-- :test_tube: [`andino_integration_tests`](https://github.com/Ekumen-OS/andino_integration_tests): Extension to the Andino robot showing how to build integration tests.
+- :computer: [`andino_gz`](https://github.com/Ekumen-OS/andino_gz): [Gazebo](https://gazebosim.org/home)(non-classic) simulation of the `andino` robot.
 - :lady_beetle: [`andino_webots`](https://github.com/Ekumen-OS/andino_webots): [Webots](https://github.com/cyberbotics/webots) simulation of the Andino robot fully integrated with ROS 2.
+- :joystick: [`andino_o3de`](https://github.com/Ekumen-OS/andino_o3de): [O3DE](https://o3de.org/) simulation of the Andino robot.
+- :green_circle: [`andino_isaac`](https://github.com/Ekumen-OS/andino_isaac): [Isaac Sim](https://docs.omniverse.nvidia.com/isaacsim/latest/index.html) simulation of the Andino robot.
+- :test_tube: [`andino_integration_tests`](https://github.com/Ekumen-OS/andino_integration_tests): Extension to the Andino robot showing how to build integration tests.
+
+## :busts_in_silhouette: Community
+
+[<img src="docs/discord-mark-blue.png" width=30 hspace="20"/>](https://discord.gg/tHhH32CTHu) Join our Discord and contribute to the community!
+
 
 ## :pick: Robot Assembly
 
@@ -104,6 +113,12 @@ source install/setup.bash
 
 `Note`: Whether your are installing the packages in your dev machine or in your robot the procedure is the same.
 
+### Install the binaries
+
+The packages have been also released via ROS package manager system for the 'humble' distro. You can check them [here](https://repo.ros2.org/status_page/ros_humble_default.html?q=andino).
+
+These packages can be installed using `apt` (e.g: `sudo apt install ros-humble-andino-description`) or using `rosdep`.
+
 ## :rocket: Usage
 
 ### Robot bringup
@@ -122,17 +137,38 @@ By default sensors like the camera and the lidar are initialized. This can be di
 - include_rplidar: `true` as default.
 - include_camera: `true` as default.
 
-After the robot is launched, use `ROS 2 CLI` for inspecting environment. E.g: By doing `ros2 topic list` the available topics can be displayed.
+After the robot is launched, use `ROS 2 CLI` for inspecting environment.
+For example, by doing `ros2 topic list` the available topics can be displayed:
+
+    /camera_info
+    /cmd_vel
+    /image_raw
+    /odom
+    /robot_description
+    /scan
+    /tf
+    /tf_static
+
+   _Note: Showing just some of them_
 
 ### Teleoperation
 
 Launch files for using the keyboard or a joystick for teleoperating the robot are provided.
 
-[`twist_mux`](http://wiki.ros.org/twist_mux) is used to at the same time accept command velocities from different topics using certain priority for each one of them (See [twist_mux config](andino_bringup/config/twist_mux.yaml)). Available topics are (ordering by priority):
+#### Keyboard
 
-- cmd_vel
-- cmd_vel_keyboard
-- cmd_vel_joy
+```
+ros2 launch andino_bringup teleop_keyboard.launch.py
+```
+This is similarly to just executing `ros2 run teleop_twist_keyboard teleop_twist_keyboard`.
+
+#### Joystick
+
+Using a joystick for teleoperating is notably better.
+You need the joystick configured as explained [here](andino_hardware/README.md#Using-joystick-for-teleoperation).
+```
+ros2 launch andino_bringup teleop_joystick.launch.py
+```
 
 ### RViz
 
@@ -144,20 +180,19 @@ ros2 launch andino_bringup rviz.launch.py
 
 For starting `rviz2` visualization with a provided configuration.
 
-## :computer: Simulation
-
-The [`andino_gz_classic`](./andino_gz_classic/README.MD) package provides a Gazebo simulation fo the Andino robot.
-
-<img src="./andino_gz_classic/docs/andino_gz_classic.png" width=400/>
-
 ## :compass: Navigation
 
 The [`andino_navigation`](./andino_navigation/README.md) package provides a navigation stack based on the great [Nav2](https://github.com/ros-planning/navigation2) package.
 
 https://github.com/Ekumen-OS/andino/assets/53065142/29951e74-e604-4a6e-80fc-421c0c6d8fee
 
-_Important!: At the moment this package is only working with the simulation. The support for the real robot is forthcoming._
+Follow the [`andino_navigation`'s README](./andino_navigation/README.md) instructions for bringing up the Navigation stack in the real robot or in the simulation.
 
+## :computer: Simulation
+
+The [`andino_gz_classic`](./andino_gz_classic/README.MD) package provides a Gazebo simulation for the Andino robot.
+
+<img src="./andino_gz_classic/docs/andino_gz_classic.png" width=400/>
 
 ## :selfie: Media
 
@@ -169,9 +204,9 @@ https://github.com/Ekumen-OS/andino/assets/53065142/c9878894-1785-4b81-b1ce-80e0
 
 Using the robot for mapping.
 
-https://github.com/Ekumen-OS/andino/assets/53065142/d73f6053-b422-4334-8f62-029a38799e66
+https://github.com/Ekumen-OS/andino/assets/53065142/283f4afd-0f9a-4d37-b71f-c9d7b2f3e453
 
-https://github.com/Ekumen-OS/andino/assets/53065142/133a4587-f384-4420-a843-15062ddb3e35
+https://github.com/Ekumen-OS/andino/assets/53065142/d73f6053-b422-4334-8f62-029a38799e66
 
 
 See [`andino_slam`](./andino_slam/) for more information.
@@ -192,7 +227,7 @@ This section is dedicated to recognizing and expressing gratitude to the open-so
 
 ## :raised_hands: Contributing
 
-Issues or PRs are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) doc. 
+Issues or PRs are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) doc.
 
 ## Code development
 
