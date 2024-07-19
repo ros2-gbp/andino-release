@@ -1,234 +1,382 @@
-<div align="center">
+# andino_hardware
 
-  ![Logo White](./docs/logo_white.svg#gh-dark-mode-only)
+This package aims to provide the necessary information to the correct assembly of the robot.
 
-</div>
+## Bill of Materials
 
-<div align="center">
-
-  ![Logo Black](./docs/logo_black.svg#gh-light-mode-only)
-
-</div>
-
-Andino is a fully open-source diff drive robot designed for educational purposes and low-cost applications.
-It is fully integrated with ROS 2 and it is a great base platform to improve skills over the robotics field.
-With its open-source design, anyone can modify and customize the robot to suit their specific needs.
-
-<p align="center">
-  <img src="docs/real_robot.png" width=500 />
-</p>
-
-_Note: For videos go to [Media](#selfie-media) section._
-
-## :books: Package Summary
-
-- :rocket: [`andino_bringup`](./andino_bringup): Contains mainly launch files in order to launch all related driver and nodes to be used in the real robot.
-- :robot: [`andino_hardware`](./andino_hardware): Contains information about the Andino assembly and hardware parts.
-- :ledger: [`andino_description`](./andino_description): Contains the URDF description of the robot.
-- :hammer_and_pick: [`andino_firmware`](./andino_firmware): Contains the code be run in the microcontroller for interfacing low level hardware with the SBC.
-- :gear: [`andino_base`](./andino_base): [ROS Control hardware interface](https://control.ros.org/master/doc/ros2_control/hardware_interface/doc/writing_new_hardware_interface.html) is implemented.
-- :control_knobs: [`andino_control`](./andino_control/): It launches the [`controller_manager`](https://control.ros.org/humble/doc/ros2_control/controller_manager/doc/userdoc.html) along with the [ros2 controllers](https://control.ros.org/master/doc/ros2_controllers/doc/controllers_index.html): [diff_drive_controller](https://control.ros.org/master/doc/ros2_controllers/diff_drive_controller/doc/userdoc.html) and the [joint_state_broadcaster](https://control.ros.org/master/doc/ros2_controllers/joint_state_broadcaster/doc/userdoc.html).
-- :computer: [`andino_gz_classic`](./andino_gz_classic/): [Gazebo Classic](https://classic.gazebosim.org/) simulation of the `andino` robot.
-- :world_map: [`andino_slam`](./andino_slam/): Provides support for SLAM with your `andino` robot.
-- :compass: [`andino_navigation`](./andino_navigation/): Navigation stack based on `nav2`.
-- :exclamation: [`andino_apps`](./andino_apps/): Integrated applications with the `andino` robot.
-
-## :paperclips: Related projects
-
-Other projects built upon Andino! :rocket:
-
-- :computer: [`andino_gz`](https://github.com/Ekumen-OS/andino_gz): [Gazebo](https://gazebosim.org/home)(non-classic) simulation of the `andino` robot.
-- :lady_beetle: [`andino_webots`](https://github.com/Ekumen-OS/andino_webots): [Webots](https://github.com/cyberbotics/webots) simulation of the Andino robot fully integrated with ROS 2.
-- :joystick: [`andino_o3de`](https://github.com/Ekumen-OS/andino_o3de): [O3DE](https://o3de.org/) simulation of the Andino robot.
-- :green_circle: [`andino_isaac`](https://github.com/Ekumen-OS/andino_isaac): [Isaac Sim](https://docs.omniverse.nvidia.com/isaacsim/latest/index.html) simulation of the Andino robot.
-- :test_tube: [`andino_integration_tests`](https://github.com/Ekumen-OS/andino_integration_tests): Extension to the Andino robot showing how to build integration tests.
-
-## :busts_in_silhouette: Community
-
-[<img src="docs/discord-mark-blue.png" width=30 hspace="20"/>](https://discord.gg/tHhH32CTHu) Join our Discord and contribute to the community!
+| Number | Module | Part | Links | Comments |
+|:--:|:--:|:-----------------------:|:--------------------:|:-------------------------------------------------------:|
+| 1 | SBC | Raspberry Pi 4 B (4 Gb) | [PiShop](https://www.pishop.us/product/raspberry-pi-4-model-b-2gb/), [TiendaTec](https://www.tiendatec.es/raspberry-pi/gama-raspberry-pi/1100-raspberry-pi-4-modelo-b-4gb-5056561800349.html) | If you want better performance you could buy the 8GB model |
+| 2 | Chassis |  2 x Print 3d Chassis + Rubber Tyre Wheels | [Chassis](./printing_model/chassis/), [Wheels Sparkfun](https://www.sparkfun.com/products/13259) | - |
+| 3 | Motors | 2 x Motor with Encoder | [Sparkfun](https://www.sparkfun.com/products/16413) | - |
+| 4 | Microcontroller | Arduino Nano | [Amazon](https://www.amazon.es/RUIZHI-Interfaz-Controlador-Mejorada-Compatible/dp/B0CNGKG4MZ/ref=sr_1_6?dib=eyJ2IjoiMSJ9.gnHfW9VtlEjMns12dAyHXLyFAlaikWpFyoOQJpO0iJBR-zelggQTQ9n001SH_P6NQ9DO3gPetP2krm7GAGvJus6vz4Utqu8Hy1gol0Rq7nmtJITd70ZNi3linf9v1g1iP7MlBx98cBGLVvFy-O2kZnJ63uZDwOZzwz_kExJzUWAxroO3AjufqqGOQHswLfDfjH6jpOJt54xxpCaqurDccId2O0uGKOj6WpPz6iLSubpsPB479SWYPSncxWQzz2kO4VjT6HVzPS2uWi19TS-A9WXVZceLBiz9t25Pf39jiGQ.1sLxrQ94HdIoXBq4VcDFMZhzKoL3wyJoY-U6BmDI6fY&dib_tag=se&keywords=arduino+nano+v3&qid=1714468231&sr=8-6) | You can also use an Arduino Uno, but mind size. It should include a microUSB - USB cable. If not, you will need to purchase it.  |
+| 5 | Motor Driver | L298N Dual H Bridge | [Amazon](https://www.amazon.com/Bridge-Stepper-Driver-Module-Controller/dp/B09T6K9RFZ/ref=sr_1_4?crid=37YY7JO6C3WVE&keywords=l298&qid=1685740618&sprefix=l29%2Caps%2C277&sr=8-4) | - |
+| 6 | Laser Scanner | RPLidar A1M8 | [RobotShop](https://www.robotshop.com/products/rplidar-a1m8-360-degree-laser-scanner-development-kit?_pos=3&_sid=b0aefcea1&_ss=r), [Amazon](https://www.amazon.es/dp/B07VLFGT27?ref_=cm_sw_r_cso_wa_apan_dp_RJ3AZC2XCEVDK0X2DCGA&starsLeft=1&th=1) | - |
+| 7 | Camera | Raspi Camera Module V2, 8 MP | [Robotshop](https://www.robotshop.com/products/raspberry-pi-camera-module-v2), [Amazon](https://www.amazon.com/Raspberry-Pi-Camera-Module-Megapixel/dp/B01ER2SKFS?th=1)  | - |
+| 8 | Electrical Power Supply | Powerbank 5V | [Amazon](https://www.amazon.es/Heganus-Powerbank-10000mAh-port%C3%A1til-pr%C3%A1ctico/dp/B082PPPWXY/ref=asc_df_B082PPPWXY/?tag=googshopes-21&linkCode=df0&hvadid=420334509253&hvpos=&hvnetw=g&hvrand=13392500367381615369&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9181150&hvtargid=pla-878722533582&psc=1&mcid=642b7553488f350a8726c7bfb183a667&tag=&ref=&adgrpid=95757266066&hvpone=&hvptwo=&hvadid=420334509253&hvpos=&hvnetw=g&hvrand=13392500367381615369&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9181150&hvtargid=pla-878722533582) | Any powerbank is suitable: Mind size / weight / output current(>=2A) |
+| 9 | (Optional) Power Step up | DC - DC boost converter | [Amazon America](https://www.amazon.com/0-9-Step-Regulator-DC-Converter/dp/B0C6QTJMFN/ref=sr_1_25?crid=G0FHM4SS5TWX&keywords=dc+step+up+converter&qid=1685741155&sprefix=dc+step+up+conver%2Caps%2C371&sr=8-25), [Amazon Europe](https://www.amazon.com/Converter-Adjustable-Voltage-Regulator-Compatible/dp/B089JYBF25/ref=sr_1_3?crid=3EB0RWDAO1UED&dib=eyJ2IjoiMSJ9.OVkOHemqP_yF8PlJmBNcovwOq6TzYQJADN7pCYP7m9hgHNOuzIA3jqIt5kZK9azOh0Nu3D7ucFbFjgBJprKpAQsC1VhKtCS1z6QLs6w0Ht4seE97e8yWkUkP6fPOry_5D1nyfsh0aMc7wLknNr5R9yDWTg6cYralThbLeU8qfIcpq5m66m9luKznRZiv2eUaXvI0rmcQyLKR2Z5NO_xktttAXuvHAnEnBwpk_3LZ1xA.r84ipJcrDH3o24_JEB5q7jNYEzRKyi56VO3e-xi7QXo&dib_tag=se&keywords=dc%2Bstep%2Bup%2Bconverter&qid=1714468875&sprefix=dc%2Bstep%2Bup%2Bconverter%2Caps%2C170&sr=8-3&th=1) | If motors support higher voltage than 5V a step-up(e.g: to 9V) can be added between powerbank(5V) and motor driver |
+| 10 | Fixing & Mount | M3 bolts/fasteners - M3 Spacers - M2.5/2.0 bolts/fasteners for SBC | [Mercado Libre](https://articulo.mercadolibre.com.ar/MLA-823234605-kit-tornillos-electronica-500-unid-fresada-philips-m3-oferta-_JM#position=1&search_layout=stack&type=item&tracking_id=2a14497e-a3dc-4a0f-98fb-b3b524117284), [Amazon](https://www.amazon.com/Taiss-620PCS-Metric-Assortment-Washers/dp/B0CWXRG6VL/ref=sr_1_2_sspa?crid=3R3BT7LOQWZ4B&dib=eyJ2IjoiMSJ9.EBY3VtTnCGRri20ECsEwpF2eTrWOhlADXq8Rbv78LP7JVW0giUfPQ5-G3e5cVq7svNoKIPbFGf0jQoImIPuJvU72yWC0XaaXyHE03TjX1zVT-AxcCUr6bvvqnQrrwFNowZjHy2ZibnHX4sDMx3aixEmx5XUGq43KVEID5FIGzTw6xsLQd410DewktxUFWCHLSD8HR8BeAUKcP3mzciuPmc8dcz9TzY5cZ_wYFO-WyEQ.B5-OkrGZbzkIn8cw4Zb_LtQUoxX1qKuiVqI6PTNmpZk&dib_tag=se&keywords=kit+M3+tuercas+y+tornillos&qid=1714469030&sprefix=kit+m3+tuercas+y+tornillos%2Caps%2C149&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1) | You would also need a set of screwdrivers if you don't have one |
+| 11 | Other 3D printed parts | Camera Mount | [3D models](./printing_model/raspi_cam_mount/) | These parts are for fixing the Raspi Cam at the front of the robot |
 
 
-## :pick: Robot Assembly
+## Connection Diagram
 
-Visit [`andino_hardware`](./andino_hardware/) for assembly instructions.
+### Motor-Arduino
 
-## :mechanical_arm: Installation
+<img src="docs/andino_diagram_arduino.jpg" />
 
-### Platforms
+Some frequent errors:
+ - If one of the motors rotates in the opposite direction (think about the orientation of the motors in the chassis) probably the output(+ and -) of the L298N's output should be toggled.
+ - When moving forward the encoder values should increase while moving backwards they should decrease. If it is happening the other way around probably the A and B encoder signals should be toggled.
 
-- ROS 2: Humble Hawksbill
-- OS:
-  - Ubuntu 22.04 Jammy Jellyfish
-  - Ubuntu Mate 22.04 (On real robot (e.g: Raspberry Pi 4B))
+### Raspberry-Power
 
-### Build from Source
+<img src="docs/andino_diagram_raspberry.jpg" />
 
-#### Dependencies
+*NOTE: depending on the power bank maximum output current, the motors may need to be powered with a voltage value lower than 9V. While a higher voltage value (up to 9V) leads to smoother operation (better motor speed control), it also increases their open-loop speed, which is noticeable particularly during motion start and varies according to the power bank quality (output current capabilities). Therefore, adjusting the output voltage to lower values (around 7V) may be required so as to make the motors work as expected.
 
-1. Install [ROS 2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
-2. Install [colcon](https://colcon.readthedocs.io/en/released/user/installation.html)
+**NOTE: Ensure the ribbon cable is properly connected with the blue or silver side facing the USB ports.
 
-#### colcon workspace
+## Microcontroller Configuration
 
-Packages here provided are colcon packages. As such a colcon workspace is expected:
+For uploading the microcontroller firmware please refer to [`andino_firmware`](../andino_firmware/README.md) package.
 
-1. Create colcon workspace
+## Single Board Computer (SBC)
 
+The SBC used in this project is a Raspberry Pi 4b so the guidelines here will refer particularly to this family of on-board computers, however extending its use to other families is possible as well.
+
+### Operative System
+
+Ubuntu Mate 22.04 ARM64 is the recommended operative system for this project. This OS provides good capabilities for a educational platform as well as good performance.
+
+For installing this OS in the Raspberry:
+1. Download the image from here: [ubuntu mate download]()https://ubuntu-mate.org/download/arm64/
+
+
+2. Install OS to a microSD card using [Raspberry Pi Imager](https://www.raspberrypi.com/software/).
+   - No extra configuration should be necessary.
+
+3. Boot your raspberry using the microSD and a HDMI connection. Some initial configuration is necessary. Follow the wizard for a proper set up. It is recommended to use simple User and Password combinations for the user. For example:
+    - user: pi
+    - password: admin
+
+4. Once is done, run `sudo apt update && sudo apt upgrade` in a terminal for updating the system. Then reboot.
+
+### Installing dependencies
+
+Some packages are necessary to be installed towards a correct set up of the robot's on-board computer.
+
+#### ssh-server
+
+In general, you will want to access to the Raspberry remotely via `ssh` connection while being connected in the same network.
+So we need to install `ssh-server`;
 ```
-mkdir -p ~/ws/src
+sudo apt-get install openssh-server
 ```
-
-2. Clone this repository in the `src` folder
-
+Enable it if it is not enabled yet:
 ```
-cd ~/ws/src
+sudo systemctl enable ssh --now
 ```
 
+After this you will be able to access this device from a remote computer by doing:
 ```
-git clone https://github.com/Ekumen-OS/andino.git
+ssh <user>@<ip>
 ```
-
-3. Install dependencies via `rosdep`
-
+For example if the user is `pi` and the ip is `192.168.0.102`
 ```
-cd ~/ws
-```
-
-```
-rosdep install --from-paths src --ignore-src -i -y
+ssh pi@192.168.0.102
 ```
 
-4. Build the packages
+
+#### Common utilities
+
+Install some common utilities that will be required later on.
 
 ```
-colcon build
+sudo apt update
 ```
 
-5. Finally, source the built packages
-   If using `bash`:
+```
+sudo apt install git net-tools software-properties-common build-essential -y
+```
+```
+sudo apt install python3-rosdep2 python3-catkin-pkg python3-catkin-pkg-modules python3-rospkg-modules python3-rospkg  -y
+```
 
+#### Install ROS
+
+Follow suit the instructions for installing next dependencies from binaries:
+ - [ROS 2 Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
+ - [Colcon](https://colcon.readthedocs.io/en/released/user/installation.html)
+
+To automatically source ROS installation, it is recommended to add `source /opt/ros/humble/setup.bash` line to the `~/.bashrc` file.
+
+#### Arduino
+
+Arduino drivers are necessary for the SBC (Raspberry) <--> Microcontroller(Arduino) serial communication.
+
+```
+sudo apt install arduino
+```
+
+Configure it properly:
+1. Add user to `dialout` and `plugdev` groups:
+   ```
+   sudo usermod -a -G dialout $USER
+   ```
+   ```
+   sudo usermod -a -G plugdev $USER
+   ```
+   Note you will need a reboot after this to be effective.
+2. Remove `brltty` from the system
+   ```
+   sudo apt remove brltty
+   ```
+   In Ubuntu 22.04 seems to be an issue with some chip drivers and the `brltty` daemon. To avoid this conflict we remove `brltty` as suggested. See [this stackoverflow post](https://stackoverflow.com/questions/70123431/why-would-ch341-uart-is-disconnected-from-ttyusb) for further information.
+
+
+
+#### Raspberry Camera Module V2
+
+After connecting the camera module to the Raspberry's camera port.
+```
+sudo apt install libraspberrypi-bin v4l-utils
+```
+```
+sudo usermod -aG video $USER
+```
+
+Check camera status:
+```
+vcgencmd get_camera
+```
+
+If the output of the previous command is `supported=1 detected=1', everything is fine. If not, your camera won't work correctly, you need to perform some configuration first.
+
+Modify the `config.txt` file for the boot:
+
+```sh
+ sudo nano /boot/firmware/config.txt
+```
+
+And add these lines:
+
+```
+# Autoload overlays for any recognized cameras or displays that are attached
+# to the CSI/DSI ports. Please note this is for libcamera support, *not* for
+# the legacy camera stack
+start_x=1
+gpu_mem=128
+```
+
+Save and close the file. Then we need to enable the camera support for the raspberry:
+
+```sh
+sudo raspi-config
+```
+
+Go to `Interface Options`, select `camera` and enable it.
+
+Finally, you just need to reboot and the camera should be working fine.
+
+#### RPLidar installation
+
+The installation of the A1M8 RPLidar sensor is quite straight forward and a ros integration package will be installed later on via `rosdep`.
+
+For now, after connecting it to the usb port:
+ 1. Verify USB connection: Green light in the usb conversor(A1M8 side board) should be turned on.
+ 2. Check the authority of RPLidar's serial-port:
+    - `ls -l /dev |grep ttyUSB`
+    - Add extra bits by doing `sudo chmod 666 /dev/ttyUSB<number_of_device>`
+
+### USB Port name configuration
+
+#### Fixed USB port names
+
+As having multiple USB devices connected to the USB ports of the Raspberry Pi, the automatically assigned USB port numbers could unexpectedly change after a reboot.
+To avoid assigning your device to a `tty_USBX` number that isn't the correct onew we should assign fixed USB port name for each connected device.
+
+The idea is to be able to generate a link between the real `ttyUSBX` port and an invented one. For this we will need to create rules, that every time the Raspberry Pi boots are executed, and therefore we
+always point to the correct port name.
+
+In order to create fixed names for the USB devices follow the instructions:
+
+1. Check the devices you have connected:
+    ```
+    sudo dmesg | grep ttyUSB
+    ```
+
+    ```
+    [  10.016170] usb 1-1.2: ch341-uart converter now attached to ttyUSB0
+    [ 309.186487] usb 1-1.1: cp210x converter now attached to ttyUSB1
+    ```
+    In the setup where this was tested we have:
+      -> Arduino Microcontroller -> _usb 1-1.2: ch341-uart converter now attached to ttyUSB0_
+      -> A1M8 Lidar Scanner -> _usb 1-1.1: cp210x converter now attached to ttyUSB1_
+
+    _Note: If you don't know how to identify each one you can simply connect them one by one and check this output._
+
+2. Look for attributes for each device that we will use to anchor a particular device with a name.
+  We will use the `idProduct` and `idVendor` of each device.
+   - Arduino Microcontroller:
+      ```
+      udevadm info --name=/dev/ttyUSB0 --attribute-walk
+      ```
+      You should look for the `idProduct` and `idVendor` under the category that matches the usb number(1-1.X):
+      In this case the `ttyUSB0` was referenced to the `usb 1-1.2`, so go to that section and find the ids:
+      ```
+        ATTRS{idProduct}=="7523"
+        ATTRS{idVendor}=="1a86"
+      ```
+   - Lidar Scanner
+      ```
+      udevadm info --name=/dev/ttyUSB1 --attribute-walk
+      ```
+      In this case the `ttyUSB0` was referenced to the `usb 1-1.1`, so go to that section and find the ids:
+      ```
+        ATTRS{idProduct}=="ea60"
+        ATTRS{idVendor}=="10c4"
+      ```
+
+3. Create the rules:
+
+    Open the file:
+    ```
+    sudo nano /etc/udev/rules.d/10-usb-serial.rules
+    ```
+
+    Add the following:
+
+    ```
+    SUBSYSTEM=="tty", ATTRS{idProduct}=="7523", ATTRS{idVendor}=="1a86", SYMLINK+="ttyUSB_ARDUINO"
+    SUBSYSTEM=="tty", ATTRS{idProduct}=="ea60", ATTRS{idVendor}=="10c4", SYMLINK+="ttyUSB_LIDAR"
+    ```
+    Note that in the `symlink` field a fixed name is indicated.
+
+4. Re-trigger the device manager:
+    ```
+    sudo udevadm trigger
+    ```
+
+5. Verify
+    ```
+    ls -l /dev/ttyUSB*
+    ```
+    ```
+    crw-rw---- 1 root dialout 188, 0 Sep  2 15:09 /dev/ttyUSB0
+    crw-rw---- 1 root dialout 188, 1 Sep  2 15:09 /dev/ttyUSB1
+    lrwxrwxrwx 1 root root         7 Sep  2 15:09 /dev/ttyUSB_ARDUINO -> ttyUSB0
+    lrwxrwxrwx 1 root root         7 Sep  2 15:09 /dev/ttyUSB_LIDAR -> ttyUSB1
+    ```
+
+Done! You can always use your devices by the fixed names without using the port number.
+Here, `ttyUSB_ARDUINO` and `ttyUSB_LIDAR` are fixed names for the Arduino Microcontroller and the Lidar Scanner respectively.
+
+For more information you can take a look at this external tutorial: [Here](https://www.freva.com/assign-fixed-usb-port-names-to-your-raspberry-pi/)
+
+### Create robot workspace
+
+Let's create our workspace and build from source this repository.
+
+```
+cd ~
+```
+```
+mkdir robot_ws/src -p
+```
+Clone this repository in the `src` folder
+```
+cd robot_ws/src
+```
+```
+git clone <repository_address>
+```
+Install dependencies via rosdep:
+```
+cd ~/robot_ws
+```
+When it is the first time you run `rosdep`:
+```
+rosdep update
+```
+Make sure to export the `ROS_DISTRO` environment variable:
+```
+export ROS_DISTRO=humble
+```
+And then proceed to install the workspace dependencies:
+```
+rosdep install --from-paths src -i -y -r
+```
+Note that option `-r` has been added. For ARM based processors, there are missing packages, e.g. those related to simulation. We would not try to run the simulation in the compute platform of andino, however for convenience it is added here.
+
+Let' source the ROS Humble installation:
+```
+source /opt/ros/humble/setup.bash
+```
+Let's build the packages (`andino_gz_classic` and `andino_apps` relies on simulation so we skip them):
+```
+colcon build --packages-skip andino_gz_classic andino_apps
+```
+After building is completed:
 ```
 source install/setup.bash
 ```
 
-`Note`: Whether your are installing the packages in your dev machine or in your robot the procedure is the same.
+After this, you are good to go and use the robot!
+Refer to [`usage`](../README.md#usage) section.
 
-### Install the binaries
+### Extra Recommendations & Tools
 
-The packages have been also released via ROS package manager system for the 'humble' distro. You can check them [here](https://repo.ros2.org/status_page/ros_humble_default.html?q=andino).
+#### Network
+Via terminal the wifi connection can be switched by doing:
 
-These packages can be installed using `apt` (e.g: `sudo apt install ros-humble-andino-description`) or using `rosdep`.
-
-## :rocket: Usage
-
-### Robot bringup
-
-`andino_bringup` contains launch files that concentrates the process that brings up the robot.
-
-After installing and sourcing the andino's packages simply run.
-
+List available wifi networks:
 ```
-ros2 launch andino_bringup andino_robot.launch.py
+sudo nmcli dev wifi list
+```
+Connect to the desired one:
+```
+sudo nmcli --ask dev wifi connect <SSID>
 ```
 
-This launch files initializes the differential drive controller and brings ups the system to interface with ROS.
-By default sensors like the camera and the lidar are initialized. This can be disabled via arguments and manage each initialization separately. See `ros2 launch andino_bringup andino_robot.launch.py -s ` for checking out the arguments.
+#### Copy files remotely
 
-- include_rplidar: `true` as default.
-- include_camera: `true` as default.
+Using `scp` is a useful tool when copying files remotely over `ssh`.
 
-After the robot is launched, use `ROS 2 CLI` for inspecting environment.
-For example, by doing `ros2 topic list` the available topics can be displayed:
-
-    /camera_info
-    /cmd_vel
-    /image_raw
-    /odom
-    /robot_description
-    /scan
-    /tf
-    /tf_static
-
-   _Note: Showing just some of them_
-
-### Teleoperation
-
-Launch files for using the keyboard or a joystick for teleoperating the robot are provided.
-
-#### Keyboard
-
+For copying a folder from host to remote unit:
 ```
-ros2 launch andino_bringup teleop_keyboard.launch.py
-```
-This is similarly to just executing `ros2 run teleop_twist_keyboard teleop_twist_keyboard`.
-
-#### Joystick
-
-Using a joystick for teleoperating is notably better.
-You need the joystick configured as explained [here](andino_hardware/README.md#Using-joystick-for-teleoperation).
-```
-ros2 launch andino_bringup teleop_joystick.launch.py
+scp -r <path/to/folder> <remote_user>@<remote_ip>:<remote_path_to_folder>
 ```
 
-### RViz
+#### ROS Domain ID
 
-Use:
+The domain ID is used by DDS to compute the UDP ports that will be used for discovery and communication.
 
+When using a "public" network using the domain id is a good technique to avoid extra noise with other ROS 2 system in the same network.
+
+See [ROS_DOMAIN_ID](https://docs.ros.org/en/humble/Concepts/Intermediate/About-Domain-ID.html)
+
+TLDR? Export an environment variable with the same ID in **all** ROS 2 clients in the network for a correct discovery.
 ```
-ros2 launch andino_bringup rviz.launch.py
+export ROS_DOMAIN_ID=<a_number_between_0_and_101>
 ```
 
-For starting `rviz2` visualization with a provided configuration.
+#### Using joystick for teleoperation
 
-## :compass: Navigation
+[`andino_bringup`](../andino_bringup/launch/teleop_joystick.launch.py) package provides a launch file for launching the corresponding `ROS 2` nodes for teleoperating the robot using a joystick.
 
-The [`andino_navigation`](./andino_navigation/README.md) package provides a navigation stack based on the great [Nav2](https://github.com/ros-planning/navigation2) package.
+It is worth mentioning that a set up might be needed depending on the gamepad you are using. Here some general guidelines:
+ - In case you are using a _Xbox One Controller_ and you want use it wireless (via USB Wirless Dongle) installing [Xone](https://github.com/medusalix/xone) is recommended.
+ - Verify that your joystick is actually working on Ubuntu:
+    - Some tools that might be useful:
+      - `sudo apt install joystick jstest-gtk evtest`
+    - Run `evtest` to check if your pad is connected:
+      ```
+      $ evtest
+        No device specified, trying to scan all of /dev/input/event*
+        Not running as root, no devices may be available.
+        Available devices:
+          /dev/input/event22:	Microsoft X-Box One pad
 
-https://github.com/Ekumen-OS/andino/assets/53065142/29951e74-e604-4a6e-80fc-421c0c6d8fee
-
-Follow the [`andino_navigation`'s README](./andino_navigation/README.md) instructions for bringing up the Navigation stack in the real robot or in the simulation.
-
-## :computer: Simulation
-
-The [`andino_gz_classic`](./andino_gz_classic/README.MD) package provides a Gazebo simulation for the Andino robot.
-
-<img src="./andino_gz_classic/docs/andino_gz_classic.png" width=400/>
-
-## :selfie: Media
-
-### RVIZ Visualization
-
-https://github.com/Ekumen-OS/andino/assets/53065142/c9878894-1785-4b81-b1ce-80e07a27effd
-
-### Slam
-
-Using the robot for mapping.
-
-https://github.com/Ekumen-OS/andino/assets/53065142/283f4afd-0f9a-4d37-b71f-c9d7b2f3e453
-
-https://github.com/Ekumen-OS/andino/assets/53065142/d73f6053-b422-4334-8f62-029a38799e66
-
-
-See [`andino_slam`](./andino_slam/) for more information.
-
-## :robot: Share your Andino!
-
-Have you built your `Andino` already? Please go to [`Show & Tell`](https://github.com/Ekumen-OS/andino/discussions/categories/show-and-tell) Discussion and share with us your own version of it.
-
-
-## :star2: Inspirational sources
-
-This section is dedicated to recognizing and expressing gratitude to the open-source repositories that have served as a source of inspiration for this project. We highly recommend exploring these repositories for further inspiration and learning.
-
- * [articubot_one](https://github.com/joshnewans/articubot_one)
- * [diffbot](https://github.com/ros-mobile-robots/diffbot)
- * [noah_hardware](https://github.com/GonzaCerv/noah-hardware)
- * [linorobot](https://github.com/linorobot/linorobot2)
-
-## :raised_hands: Contributing
-
-Issues or PRs are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) doc.
-
-## Code development
-
-Note that a [`Docker`](./docker) folder is provided for easy setting up the workspace.
+      ```
+    - Alternatively, you can use `jstest-gtk` to check the controller, you will find a pretty GUI to play with.
