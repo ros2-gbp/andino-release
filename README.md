@@ -1,234 +1,59 @@
-<div align="center">
+# andino_base
 
-  ![Logo White](./docs/logo_white.svg#gh-dark-mode-only)
+## Description
 
-</div>
+The hardware-software-ros interaction in the `andino` project is developed using [ROS 2 Control](https://control.ros.org/master/index.html).
 
-<div align="center">
+This package:
+ - Implements `andino`'s [hardware interface](https://control.ros.org/master/doc/ros2_control/hardware_interface/doc/writing_new_hardware_interface.html).
+ - Provides a communication with microcontroller:
+   - `andino_base::MotorDriver` class is in charge of the Serial communication for commanding the motors.
+     - An application is provided for evaluating the communication: Check `applications/motor_driver_demo.cpp`. To use this application simply execute `motor_driver_demo --help` to see the options.
+   - This communication module is used by the hardware interface implementation.
 
-  ![Logo Black](./docs/logo_black.svg#gh-light-mode-only)
+## Hardware Interface
 
-</div>
+In `ros2_control` hardware system components are libraries, dynamically loaded by the controller manager using the pluginlib interface.
 
-Andino is a fully open-source diff drive robot designed for educational purposes and low-cost applications.
-It is fully integrated with ROS 2 and it is a great base platform to improve skills over the robotics field.
-With its open-source design, anyone can modify and customize the robot to suit their specific needs.
+For extra information about the hardware components see [Hardware Components](https://control.ros.org/master/doc/getting_started/getting_started.html#overview-hardware-components).
 
-<p align="center">
-  <img src="docs/real_robot.png" width=500 />
-</p>
+The hardware interface accepts some parameters that are passed via the urdf description within the `ros2_control` tag (Check [`andino_description`](../andino_description/urdf/include/andino_control.urdf.xacro))
 
-_Note: For videos go to [Media](#selfie-media) section._
+| Params               | Description |
+| :---                 |    :----:   |
+| left_wheel_name      | Name of the left wheel joint. |
+| right_wheel_name     | Name of the right wheel joint. |
+| serial_device        | Path to the serial device. |
+| baud_rate            | Baud rate of the serial communication. |
+| timeout              | Timeout for the communication. |
+| enc_ticks_per_rev    | Encoder ticks per revolution of the wheel. |
 
-## :books: Package Summary
+### State interfaces
 
-- :rocket: [`andino_bringup`](./andino_bringup): Contains mainly launch files in order to launch all related driver and nodes to be used in the real robot.
-- :robot: [`andino_hardware`](./andino_hardware): Contains information about the Andino assembly and hardware parts.
-- :ledger: [`andino_description`](./andino_description): Contains the URDF description of the robot.
-- :hammer_and_pick: [`andino_firmware`](./andino_firmware): Contains the code be run in the microcontroller for interfacing low level hardware with the SBC.
-- :gear: [`andino_base`](./andino_base): [ROS Control hardware interface](https://control.ros.org/master/doc/ros2_control/hardware_interface/doc/writing_new_hardware_interface.html) is implemented.
-- :control_knobs: [`andino_control`](./andino_control/): It launches the [`controller_manager`](https://control.ros.org/humble/doc/ros2_control/controller_manager/doc/userdoc.html) along with the [ros2 controllers](https://control.ros.org/master/doc/ros2_controllers/doc/controllers_index.html): [diff_drive_controller](https://control.ros.org/master/doc/ros2_controllers/diff_drive_controller/doc/userdoc.html) and the [joint_state_broadcaster](https://control.ros.org/master/doc/ros2_controllers/joint_state_broadcaster/doc/userdoc.html).
-- :computer: [`andino_gz_classic`](./andino_gz_classic/): [Gazebo Classic](https://classic.gazebosim.org/) simulation of the `andino` robot.
-- :world_map: [`andino_slam`](./andino_slam/): Provides support for SLAM with your `andino` robot.
-- :compass: [`andino_navigation`](./andino_navigation/): Navigation stack based on `nav2`.
-- :exclamation: [`andino_apps`](./andino_apps/): Integrated applications with the `andino` robot.
+This hardware interface implements the following state interfaces per joint (for left and right joint):
+ - *Position*: The position is obtained via encoder information from the microcontroller.
+ - *Velocity*: Velocity is calculated via encoder information from the microcontroller.
 
-## :paperclips: Related projects
+### Command interfaces
 
-Other projects built upon Andino! :rocket:
-
-- :computer: [`andino_gz`](https://github.com/Ekumen-OS/andino_gz): [Gazebo](https://gazebosim.org/home)(non-classic) simulation of the `andino` robot.
-- :lady_beetle: [`andino_webots`](https://github.com/Ekumen-OS/andino_webots): [Webots](https://github.com/cyberbotics/webots) simulation of the Andino robot fully integrated with ROS 2.
-- :joystick: [`andino_o3de`](https://github.com/Ekumen-OS/andino_o3de): [O3DE](https://o3de.org/) simulation of the Andino robot.
-- :green_circle: [`andino_isaac`](https://github.com/Ekumen-OS/andino_isaac): [Isaac Sim](https://docs.omniverse.nvidia.com/isaacsim/latest/index.html) simulation of the Andino robot.
-- :test_tube: [`andino_integration_tests`](https://github.com/Ekumen-OS/andino_integration_tests): Extension to the Andino robot showing how to build integration tests.
-
-## :busts_in_silhouette: Community
-
-[<img src="docs/discord-mark-blue.png" width=30 hspace="20"/>](https://discord.gg/tHhH32CTHu) Join our Discord and contribute to the community!
+This hardware interface uses the following command interfaces per joint (for left and right joint):
+ - *Velocity*: The velocity received (rad/s) is traduced to microcontroller's velocity nomenclature for the motors.
 
 
-## :pick: Robot Assembly
+## Motor Driver Application
 
-Visit [`andino_hardware`](./andino_hardware/) for assembly instructions.
-
-## :mechanical_arm: Installation
-
-### Platforms
-
-- ROS 2: Humble Hawksbill
-- OS:
-  - Ubuntu 22.04 Jammy Jellyfish
-  - Ubuntu Mate 22.04 (On real robot (e.g: Raspberry Pi 4B))
-
-### Build from Source
-
-#### Dependencies
-
-1. Install [ROS 2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
-2. Install [colcon](https://colcon.readthedocs.io/en/released/user/installation.html)
-
-#### colcon workspace
-
-Packages here provided are colcon packages. As such a colcon workspace is expected:
-
-1. Create colcon workspace
-
+An application for testing the connection with the microcontroller is provided.
+After installing this package the application called `motor_driver_demo` can be used.
 ```
-mkdir -p ~/ws/src
+motor_driver_demo --help
 ```
 
-2. Clone this repository in the `src` folder
+This application allows verifying the communication with the microcontroller for controlling the motors. Commands for reading the encoders or individually setting a velocity for the motors is some of the possibilities.
 
-```
-cd ~/ws/src
-```
+## Extra Notes
 
-```
-git clone https://github.com/Ekumen-OS/andino.git
-```
-
-3. Install dependencies via `rosdep`
-
-```
-cd ~/ws
-```
-
-```
-rosdep install --from-paths src --ignore-src -i -y
-```
-
-4. Build the packages
-
-```
-colcon build
-```
-
-5. Finally, source the built packages
-   If using `bash`:
-
-```
-source install/setup.bash
-```
-
-`Note`: Whether your are installing the packages in your dev machine or in your robot the procedure is the same.
-
-### Install the binaries
-
-The packages have been also released via ROS package manager system for the 'humble' distro. You can check them [here](https://repo.ros2.org/status_page/ros_humble_default.html?q=andino).
-
-These packages can be installed using `apt` (e.g: `sudo apt install ros-humble-andino-description`) or using `rosdep`.
-
-## :rocket: Usage
-
-### Robot bringup
-
-`andino_bringup` contains launch files that concentrates the process that brings up the robot.
-
-After installing and sourcing the andino's packages simply run.
-
-```
-ros2 launch andino_bringup andino_robot.launch.py
-```
-
-This launch files initializes the differential drive controller and brings ups the system to interface with ROS.
-By default sensors like the camera and the lidar are initialized. This can be disabled via arguments and manage each initialization separately. See `ros2 launch andino_bringup andino_robot.launch.py -s ` for checking out the arguments.
-
-- include_rplidar: `true` as default.
-- include_camera: `true` as default.
-
-After the robot is launched, use `ROS 2 CLI` for inspecting environment.
-For example, by doing `ros2 topic list` the available topics can be displayed:
-
-    /camera_info
-    /cmd_vel
-    /image_raw
-    /odom
-    /robot_description
-    /scan
-    /tf
-    /tf_static
-
-   _Note: Showing just some of them_
-
-### Teleoperation
-
-Launch files for using the keyboard or a joystick for teleoperating the robot are provided.
-
-#### Keyboard
-
-```
-ros2 launch andino_bringup teleop_keyboard.launch.py
-```
-This is similarly to just executing `ros2 run teleop_twist_keyboard teleop_twist_keyboard`.
-
-#### Joystick
-
-Using a joystick for teleoperating is notably better.
-You need the joystick configured as explained [here](andino_hardware/README.md#Using-joystick-for-teleoperation).
-```
-ros2 launch andino_bringup teleop_joystick.launch.py
-```
-
-### RViz
-
-Use:
-
-```
-ros2 launch andino_bringup rviz.launch.py
-```
-
-For starting `rviz2` visualization with a provided configuration.
-
-## :compass: Navigation
-
-The [`andino_navigation`](./andino_navigation/README.md) package provides a navigation stack based on the great [Nav2](https://github.com/ros-planning/navigation2) package.
-
-https://github.com/Ekumen-OS/andino/assets/53065142/29951e74-e604-4a6e-80fc-421c0c6d8fee
-
-Follow the [`andino_navigation`'s README](./andino_navigation/README.md) instructions for bringing up the Navigation stack in the real robot or in the simulation.
-
-## :computer: Simulation
-
-The [`andino_gz_classic`](./andino_gz_classic/README.MD) package provides a Gazebo simulation for the Andino robot.
-
-<img src="./andino_gz_classic/docs/andino_gz_classic.png" width=400/>
-
-## :selfie: Media
-
-### RVIZ Visualization
-
-https://github.com/Ekumen-OS/andino/assets/53065142/c9878894-1785-4b81-b1ce-80e07a27effd
-
-### Slam
-
-Using the robot for mapping.
-
-https://github.com/Ekumen-OS/andino/assets/53065142/283f4afd-0f9a-4d37-b71f-c9d7b2f3e453
-
-https://github.com/Ekumen-OS/andino/assets/53065142/d73f6053-b422-4334-8f62-029a38799e66
-
-
-See [`andino_slam`](./andino_slam/) for more information.
-
-## :robot: Share your Andino!
-
-Have you built your `Andino` already? Please go to [`Show & Tell`](https://github.com/Ekumen-OS/andino/discussions/categories/show-and-tell) Discussion and share with us your own version of it.
-
-
-## :star2: Inspirational sources
-
-This section is dedicated to recognizing and expressing gratitude to the open-source repositories that have served as a source of inspiration for this project. We highly recommend exploring these repositories for further inspiration and learning.
-
- * [articubot_one](https://github.com/joshnewans/articubot_one)
- * [diffbot](https://github.com/ros-mobile-robots/diffbot)
- * [noah_hardware](https://github.com/GonzaCerv/noah-hardware)
- * [linorobot](https://github.com/linorobot/linorobot2)
-
-## :raised_hands: Contributing
-
-Issues or PRs are always welcome! Please refer to [CONTRIBUTING](CONTRIBUTING.md) doc.
-
-## Code development
-
-Note that a [`Docker`](./docker) folder is provided for easy setting up the workspace.
+ - Serial communication: In case the serial port is denied to be open, probably the user should be added to the `plugdev` and `dialout` groups:
+    ```
+    sudo usermod -a -G dialout $USER
+    sudo usermod -a -G plugdev $USER
+    ```
