@@ -1,0 +1,17 @@
+ros-humble-andino-base (0.2.0-1jammy) jammy; urgency=high
+
+  * explicitly add <cstdint> header for fixed width integer types (#254 <https://github.com/Ekumen-OS/andino/issues/254>)
+  * Contributors: Sakura286
+
+ -- Franco Cipollone <franco.c@ekumenlabs.com>  Fri, 19 Jul 2024 03:00:00 -0000
+
+ros-humble-andino-base (0.1.0-1jammy) jammy; urgency=high
+
+  * Adds pkg-config module dependency (#161 <https://github.com/Ekumen-OS/andino/issues/161>)
+  * Adds explicit linking of serial library to motor_driver_demo app. (#157 <https://github.com/Ekumen-OS/andino/issues/157>)
+  * Removes CMake dependency to controller_manager (#156 <https://github.com/Ekumen-OS/andino/issues/156>)
+  * Contributors: Franco Cipollone
+
+ -- Franco Cipollone <franco.c@ekumenlabs.com>  Mon, 09 Oct 2023 03:00:00 -0000
+
+
