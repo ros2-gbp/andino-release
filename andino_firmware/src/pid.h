@@ -32,7 +32,7 @@
 namespace andino {
 
 /// @brief This class provides a simple PID controller implementation.
-class PID {
+class Pid {
  public:
   /// @brief Constructs a new PID object.
   ///
@@ -42,24 +42,22 @@ class PID {
   /// @param ko Tuning output gain.
   /// @param output_min Output minimum limit.
   /// @param output_max Output maximum limit.
-  PID(int kp, int kd, int ki, int ko, int output_min, int output_max)
-      : kp_(kp),
-        kd_(kd),
-        ki_(ki),
-        ko_(ko),
-        output_min_(output_min),
-        output_max_(output_max),
-        enabled_(false) {}
+  Pid(int kp, int kd, int ki, int ko, int output_min, int output_max)
+      : kp_(kp), kd_(kd), ki_(ki), ko_(ko), output_min_(output_min), output_max_(output_max) {}
 
   /// @brief Resets the PID controller.
   ///
   /// @param encoder_count Current encoder value.
   void reset(int encoder_count);
 
+  /// @brief Returns if the PID controller is enabled or not.
+  bool enabled();
+
   /// @brief Enables the PID controller.
-  ///
-  /// @param enabled True to enable the PID, false otherwise.
-  void enable(bool enabled);
+  void enable();
+
+  /// @brief Disables the PID controller.
+  void disable();
 
   /// @brief Computes a new output.
   ///
@@ -82,32 +80,32 @@ class PID {
 
  private:
   /// Tuning proportional gain.
-  int kp_;
+  int kp_{0};
   /// Tuning derivative gain.
-  int kd_;
+  int kd_{0};
   /// Tuning integral gain.
-  int ki_;
+  int ki_{0};
   /// Tuning output gain.
-  int ko_;
+  int ko_{0};
 
   /// Output minimum limit.
-  int output_min_;
+  int output_min_{0};
   /// Output maximum limit.
-  int output_max_;
+  int output_max_{0};
 
   /// True if the PID is enabled, false otherwise.
-  bool enabled_;
+  bool enabled_{false};
 
   /// Setpoint value.
-  int setpoint_;
+  int setpoint_{0};
   /// Accumulated integral term.
-  int integral_term_;
+  int integral_term_{0};
   /// Last received encoder value.
-  long last_encoder_count_;
+  long last_encoder_count_{0};
   /// Last computed input value.
-  int last_input_;
+  int last_input_{0};
   /// Last computed output value.
-  long last_output_;
+  long last_output_{0};
 };
 
 }  // namespace andino
