@@ -9,6 +9,11 @@ ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
+# Copy requirement files and install dependencies
+COPY docker/requirements.txt .
+RUN apt-get update && apt-get install --no-install-recommends -y $(cat requirements.txt)
+RUN rm requirements.txt
+
 # Create a user with passwordless sudo
 RUN adduser --uid $USERID --gecos "ekumen developer" --disabled-password $USER
 RUN adduser $USER sudo
@@ -29,6 +34,8 @@ RUN mkdir -p /home/$USER/ws/src
 RUN echo "source /opt/ros/humble/setup.bash" >> /home/$USER/.bashrc
 # Adds colcon autocomplete
 RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> /home/$USER/.bashrc
+# Adds gazebo sourcing.
+RUN echo "source /usr/share/gazebo/setup.bash" >> /home/$USER/.bashrc
 
 # Updates
 RUN sudo apt upgrade -y && sudo apt update && rosdep update

@@ -25,10 +25,10 @@ jobs:
       image: ubuntu:22.04
     steps:
     - uses: actions/checkout@v3
-    - uses: ros-tooling/setup-ros@v0.6
+    - uses: ros-tooling/setup-ros@v0.7
     - uses: ros-tooling/action-ros-ci@v0.3
       id: action_ros_ci_step
       with:
-        package-name: andino_base andino_bringup andino_control andino_description andino_firmware andino_hardware andino_slam andino_gz_classic andino_navigation
+        package-name: andino_base andino_bringup andino_control andino_description andino_firmware andino_hardware andino_slam andino_gz_classic andino_navigation andino_apps
         target-ros2-distro: ${{ env.ROS_DISTRO }}
         import-token: ${{ secrets.GITHUB_TOKEN }}
