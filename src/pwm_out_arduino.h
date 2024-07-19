@@ -1,6 +1,6 @@
 // BSD 3-Clause License
 //
-// Copyright (c) 2023, Ekumen Inc.
+// Copyright (c) 2024, Ekumen Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,19 +27,23 @@
 // CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#include "app.h"
+#pragma once
 
-/// @brief Application entry point.
-///
-/// @return Execution final status (never reached).
-int main(void) {
-  // Application configuration.
-  andino::App::setup();
+#include "pwm_out.h"
 
-  // Application main run loop.
-  while (1) {
-    andino::App::loop();
-  }
+namespace andino {
 
-  return 0;
-}
+/// @brief This class provides an Arduino implementation of the PWM output interface.
+class PwmOutArduino : public PwmOut {
+ public:
+  /// @brief Constructs a PwmOutArduino using the specified GPIO pin.
+  ///
+  /// @param gpio_pin GPIO pin.
+  explicit PwmOutArduino(const int gpio_pin) : PwmOut(gpio_pin) {}
+
+  void begin() const override;
+
+  void write(int value) const override;
+};
+
+}  // namespace andino

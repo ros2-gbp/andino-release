@@ -1,6 +1,6 @@
 // BSD 3-Clause License
 //
-// Copyright (c) 2023, Ekumen Inc.
+// Copyright (c) 2024, Ekumen Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,19 +27,14 @@
 // CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#include "app.h"
+#include "pwm_out_arduino.h"
 
-/// @brief Application entry point.
-///
-/// @return Execution final status (never reached).
-int main(void) {
-  // Application configuration.
-  andino::App::setup();
+#include <Arduino.h>
 
-  // Application main run loop.
-  while (1) {
-    andino::App::loop();
-  }
+namespace andino {
 
-  return 0;
-}
+void PwmOutArduino::begin() const { pinMode(gpio_pin_, OUTPUT); }
+
+void PwmOutArduino::write(int value) const { analogWrite(gpio_pin_, value); }
+
+}  // namespace andino
