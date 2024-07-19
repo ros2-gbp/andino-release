@@ -1,0 +1,18 @@
+ros-humble-andino-navigation (0.2.0-1jammy) jammy; urgency=high
+
+  * andino_apps package created and andino_navigation package updated (#235 <https://github.com/Ekumen-OS/andino/issues/235>)
+  * Improves andino_navigation package. (#224 <https://github.com/Ekumen-OS/andino/issues/224>)
+  * Contributors: Franco Cipollone, Jesús Silva
+
+ -- Olmer Garcia <olmerg@ekumenlabs.com>  Fri, 19 Jul 2024 03:00:00 -0000
+
+ros-humble-andino-navigation (0.1.0-1jammy) jammy; urgency=high
+
+  * Renames andino_gazebo package to andino_gz_classic. (#153 <https://github.com/Ekumen-OS/andino/issues/153>)
+  * Updates logo and minor doc changes (#130 <https://github.com/Ekumen-OS/andino/issues/130>)
+  * nav2 gazebo example (#109 <https://github.com/Ekumen-OS/andino/issues/109>)
+  * Contributors: Franco Cipollone, Olmer Garcia-Bedoya
+
+ -- Olmer Garcia <olmerg@ekumenlabs.com>  Mon, 09 Oct 2023 03:00:00 -0000
+
+

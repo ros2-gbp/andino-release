@@ -1,0 +1,12 @@
+Source: ros-humble-andino-navigation
+Section: misc
+Priority: optional
+Maintainer: Olmer Garcia <olmerg@ekumenlabs.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-launch-ros, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-andino-navigation
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-launch-ros, ros-humble-nav2-bringup, ros-humble-navigation2, ros-humble-rviz2, ros-humble-ros-workspace
+Description: Bring up nav2 package with Andino.
