@@ -1,0 +1,16 @@
+ros-humble-andino-apps (0.2.0-1jammy) jammy; urgency=high
+
+  * andino_apps package created and andino_navigation package updated (#235 <https://github.com/Ekumen-OS/andino/issues/235>)
+  * Contributors: Jesús Silva
+
+ -- JesusSilvaUtrera <jesus.silva@ekumenlabs.com>  Fri, 19 Jul 2024 03:00:00 -0000
+
+ros-humble-andino-apps (0.1.0-1jammy) jammy; urgency=high
+
+  * Initial version of the package
+  * Moved launch file to execute Gazebo classic simulation + Nav2 from andino_navigation (#228 <https://github.com/Ekumen-OS/andino/issues/228>)
+  * Contributors: Jesús Silva
+
+ -- JesusSilvaUtrera <jesus.silva@ekumenlabs.com>  Wed, 10 Apr 2024 03:00:00 -0000
+
+

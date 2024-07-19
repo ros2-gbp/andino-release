@@ -1,0 +1,12 @@
+Source: ros-humble-andino-apps
+Section: misc
+Priority: optional
+Maintainer: JesusSilvaUtrera <jesus.silva@ekumenlabs.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-ament-lint-auto <!nocheck>, ros-humble-ament-lint-common <!nocheck>, ros-humble-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-humble-andino-apps
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-andino-gz-classic, ros-humble-nav2-bringup, ros-humble-ros2launch, ros-humble-rviz2, ros-humble-ros-workspace
+Description: Package for apps created with andino
