@@ -71,7 +71,7 @@ namespace andino {
 //  - http://brettbeauregard.com/blog/2011/04/improving-the-beginner%E2%80%99s-pid-derivative-kick/
 //  - http://brettbeauregard.com/blog/2011/04/improving-the-beginner%E2%80%99s-pid-tuning-changes/
 
-void PID::reset(int encoder_count) {
+void Pid::reset(int encoder_count) {
   // Since we can assume that the PID is only turned on when going from stop to moving, we can init
   // everything on zero.
   setpoint_ = 0;
@@ -81,9 +81,16 @@ void PID::reset(int encoder_count) {
   last_output_ = 0;
 }
 
-void PID::enable(bool enabled) { enabled_ = enabled; }
+/// @brief Enable PID
+void Pid::enable() { enabled_ = true; }
 
-void PID::compute(int encoder_count, int& computed_output) {
+/// @brief Is the PID controller enabled?
+bool Pid::enabled() { return enabled_; }
+
+/// @brief Disable PID
+void Pid::disable() { enabled_ = false; }
+
+void Pid::compute(int encoder_count, int& computed_output) {
   if (!enabled_) {
     // Reset PID once to prevent startup spikes.
     if (last_input_ != 0) {
@@ -116,9 +123,9 @@ void PID::compute(int encoder_count, int& computed_output) {
   last_output_ = output;
 }
 
-void PID::set_setpoint(int setpoint) { setpoint_ = setpoint; }
+void Pid::set_setpoint(int setpoint) { setpoint_ = setpoint; }
 
-void PID::set_tunings(int kp, int kd, int ki, int ko) {
+void Pid::set_tunings(int kp, int kd, int ki, int ko) {
   kp_ = kp;
   kd_ = kd;
   ki_ = ki;
