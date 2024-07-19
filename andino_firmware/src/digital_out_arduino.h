@@ -1,6 +1,6 @@
 // BSD 3-Clause License
 //
-// Copyright (c) 2023, Ekumen Inc.
+// Copyright (c) 2024, Ekumen Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,28 +29,21 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
-#include <stdint.h>
-
-#include "Arduino.h"
+#include "digital_out.h"
 
 namespace andino {
 
-/// @brief This class provides a simple way to set and use Pin Change Interrupts.
-class PCInt {
+/// @brief This class provides an Arduino implementation of the digital output interface.
+class DigitalOutArduino : public DigitalOut {
  public:
-  /// @brief Interrupt callback type.
-  typedef void (*InterruptCallback)();
-
-  /// @brief Attaches an interrupt callback.
-  /// @note Only one callback per port is supported.
+  /// @brief Constructs a DigitalOutArduino using the specified GPIO pin.
   ///
-  /// @param pin Pin of interest.
-  /// @param callback Callback function.
-  static void attach_interrupt(uint8_t pin, InterruptCallback callback);
+  /// @param gpio_pin GPIO pin.
+  explicit DigitalOutArduino(const int gpio_pin) : DigitalOut(gpio_pin) {}
 
- private:
-  /// Map between ports and Pin Change Mask registers.
-  static constexpr volatile uint8_t* kPortToPCMask[]{&PCMSK0, &PCMSK1, &PCMSK2};
+  void begin() const override;
+
+  void write(int value) const override;
 };
 
 }  // namespace andino
