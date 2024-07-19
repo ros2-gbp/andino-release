@@ -8,16 +8,36 @@ Check `encoder_driver.h` and `motor_driver.h` files to check the expected pins f
 
 ## Installation
 
+### Arduino
+In Arduino IDE, go to `tools->Manage Libraries ...` and install:
+- "Adafruit BNO055"
+
 Verify and Upload `andino_firmware.ino` to your arduino board.
+
+### PlatformIO
+1. Install dependencies `sudo apt-get install python3.10-venv`
+2. Install platformio
+```
+curl -fsSL -o /tmp/get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py
+python3 /tmp/get-platformio.py
+```
+3. Add platformio to your $PATH:
+```
+echo "PATH=\"\$PATH:\$HOME/.platformio/penv/bin\"" >> $HOME/.bashrc
+source $HOME/.bashrc
+```
+4. Build and upload the firmware
+   - If you're using an arduino uno `pio run --target upload -e uno`
+   - If you're using an arduino nano `pio run --target upload -e nanoatmega328`
 
 ## Description
 
-Via `serial` connection (57600 baud) it is possible to interact with the microcontroller. The interface is described in the [andino_firmware/commands.h](andino_firmware/commands.h) file. Here are the most used commands:
+Via `serial` connection (57600 baud) it is possible to interact with the microcontroller. The interface is described in the [commands.h](src/commands.h) file. Here are the most used commands:
 
 
  - Get encoder values: `'e'`
  - Set open-loop speed for the motors[pwm] `'o <left> <right>'`
-   - Example to move forward full speed: `'o 255 255'` 
+   - Example to move forward full speed: `'o 255 255'`
    - Range `[-255 -> 255]`
  - Set closed-loop speed for the motors[ticks/sec] `'m <left> <right>'`
    - Important!: See the `Test it!` section.
