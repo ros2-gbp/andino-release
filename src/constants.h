@@ -27,19 +27,37 @@
 // CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#include "app.h"
+#pragma once
 
-/// @brief Application entry point.
-///
-/// @return Execution final status (never reached).
-int main(void) {
-  // Application configuration.
-  andino::App::setup();
+namespace andino {
 
-  // Application main run loop.
-  while (1) {
-    andino::App::loop();
-  }
+/// @brief Common constants.
+struct Constants {
+  /// @brief Serial port baud rate.
+  static constexpr long kBaudrate{57600};
 
-  return 0;
-}
+  /// @brief Time window to automatically stop the robot if no command has been received [ms].
+  static constexpr long kAutoStopWindow{3000};
+
+  /// @brief Minimum PWM wave duty cycle (0%) (see
+  /// https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/).
+  static constexpr int kPwmMin{0};
+  /// @brief Maximum PWM wave duty cycle (100%) (see
+  /// https://www.arduino.cc/reference/en/language/functions/analog-io/analogwrite/).
+  static constexpr int kPwmMax{255};
+
+  /// @brief PID computation rate [Hz].
+  static constexpr int kPidRate{30};
+  /// @brief PID computation period [ms].
+  static constexpr double kPidPeriod{1000 / kPidRate};
+  /// @brief PID default tuning proportional gain.
+  static constexpr int kPidKp{30};
+  /// @brief PID default tuning derivative gain.
+  static constexpr int kPidKd{10};
+  /// @brief PID default tuning integral gain.
+  static constexpr int kPidKi{0};
+  /// @brief PID default tuning output gain.
+  static constexpr int kPidKo{10};
+};
+
+}  // namespace andino

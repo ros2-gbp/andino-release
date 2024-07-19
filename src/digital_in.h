@@ -1,6 +1,6 @@
 // BSD 3-Clause License
 //
-// Copyright (c) 2023, Ekumen Inc.
+// Copyright (c) 2024, Ekumen Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,19 +27,32 @@
 // CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#include "app.h"
+#pragma once
 
-/// @brief Application entry point.
-///
-/// @return Execution final status (never reached).
-int main(void) {
-  // Application configuration.
-  andino::App::setup();
+namespace andino {
 
-  // Application main run loop.
-  while (1) {
-    andino::App::loop();
-  }
+/// @brief This class defines an interface for digital inputs.
+class DigitalIn {
+ public:
+  /// @brief Constructs a DigitalIn using the specified GPIO pin.
+  ///
+  /// @param gpio_pin GPIO pin.
+  explicit DigitalIn(const int gpio_pin) : gpio_pin_(gpio_pin) {}
 
-  return 0;
-}
+  /// @brief Destructs the digital input.
+  virtual ~DigitalIn() = default;
+
+  /// @brief Initializes the digital input.
+  virtual void begin() const = 0;
+
+  /// @brief Gets the digital input value (0 or 1).
+  ///
+  /// @return Digital input value.
+  virtual int read() const = 0;
+
+ protected:
+  /// GPIO pin.
+  const int gpio_pin_;
+};
+
+}  // namespace andino
