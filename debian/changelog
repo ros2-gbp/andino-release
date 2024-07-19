@@ -1,0 +1,15 @@
+ros-humble-andino-control (0.2.0-1jammy) jammy; urgency=high
+
+  * Matches convention with cmd_vel and odom topics. (#223 <https://github.com/Ekumen-OS/andino/issues/223>)
+  * Contributors: Franco Cipollone
+
+ -- Franco Cipollone <franco.c@ekumenlabs.com>  Fri, 19 Jul 2024 03:00:00 -0000
+
+ros-humble-andino-control (0.1.0-1jammy) jammy; urgency=high
+
+  * Sets up ros control for the andino robot
+  * Contributors: Franco Cipollone
+
+ -- Franco Cipollone <franco.c@ekumenlabs.com>  Mon, 09 Oct 2023 03:00:00 -0000
+
+
